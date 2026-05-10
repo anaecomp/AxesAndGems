@@ -43,5 +43,14 @@ public class GameEngine implements Engine, KeyListener {
     }
 
     public void update(){
+        if(pickupRequest){
+            Hero.getInstance().pickupIfPossible();
+            pickupRequest = false;
+        }
+
+        if(mineRequest){
+            Hero.getInstance().mineIfPossible();
+            mineRequest = false;
+        }
     }
 }

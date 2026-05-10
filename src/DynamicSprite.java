@@ -121,7 +121,7 @@ public class DynamicSprite extends SolidSprite{
         return boxInFront;
     }
 
-    private boolean pickupIfPossible(){
+    protected boolean pickupIfPossible(){
         Rectangle2D.Double reachableBox = this.getInteractionBox();
 
         for(Sprite my_sprite : PhysicEngine.getInstance().getEnvironment()) {
@@ -142,10 +142,11 @@ public class DynamicSprite extends SolidSprite{
         return false;
     }
 
-    private boolean mineIfPossible(){
-        if (!inventory.hasAxe()) {
+    protected boolean mineIfPossible(){
+        if (!this.inventory.hasAxe()) {
             return false;
-        } else {
+        }
+
             Rectangle2D.Double reachableBox = this.getInteractionBox();
 
             for(Sprite my_sprite : PhysicEngine.getInstance().getEnvironment()) {
@@ -156,6 +157,8 @@ public class DynamicSprite extends SolidSprite{
                         PhysicEngine.getInstance().getEnvironment().remove(my_sprite);
                         //Add the Gem to the Sprite's Inventory
                         this.inventory.addGem();
+                        //Remove a Pickaxe from the Sprite's Inventory
+                        this.inventory.removeAxe();
                         //Replace the Pickaxe with Grass in the GUI Window
                         RenderEngine.getInstance().replaceWithGrass(my_sprite);
                         //Indicate Pickup Occurred
@@ -163,8 +166,9 @@ public class DynamicSprite extends SolidSprite{
                     }
                 }
             }
+
             return false;
-        }
+
     }
 
 
