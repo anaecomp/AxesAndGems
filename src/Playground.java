@@ -3,6 +3,12 @@
 // (powered by Fernflower decompiler)
 //
 
+import Sprites.Displayable;
+import Sprites.Solid.PickaxeSprite;
+import Sprites.Solid.RockSprite;
+import Sprites.Solid.SolidSprite;
+import Sprites.Sprite;
+
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.io.BufferedReader;

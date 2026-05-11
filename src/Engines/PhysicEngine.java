@@ -1,3 +1,8 @@
+package Engines;
+import Sprites.Dynamic.Troll;
+import Sprites.Sprite;
+import Sprites.Dynamic.DynamicSprite;
+
 import java.util.ArrayList;
 
 public class PhysicEngine implements Engine {
@@ -30,7 +35,7 @@ public class PhysicEngine implements Engine {
         this.environment.remove(sprite);
     }
 
-    void setEnvironment(ArrayList<Sprite> environment) {
+    public void setEnvironment(ArrayList<Sprite> environment) {
         this.environment = environment;
     }
 
@@ -43,8 +48,19 @@ public class PhysicEngine implements Engine {
     }
 
     public void update() {
-        for(DynamicSprite my_sprite : this.movingSpriteList) {
-            my_sprite.moveIfPossible(this.environment);
+
+        for (DynamicSprite my_sprite : this.movingSpriteList) {
+
+            if (my_sprite instanceof Troll) {
+                ((Troll) my_sprite).autoMove(this.environment);
+                my_sprite.pickupIfPossible();
+                my_sprite.mineIfPossible();
+                ((Troll) my_sprite).stealIfPossible();
+            }
+            else {
+                my_sprite.moveIfPossible(this.environment);
+            }
+
         }
 
     }

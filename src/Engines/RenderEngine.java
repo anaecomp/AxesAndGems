@@ -1,7 +1,12 @@
-//
+package Engines;//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
 //
+
+import Sprites.Displayable;
+import Sprites.Sprite;
+import Sprites.Dynamic.Hero;
+import Sprites.Dynamic.Troll;
 
 import java.awt.*;
 import java.io.File;
@@ -12,6 +17,7 @@ import javax.swing.JPanel;
 public class RenderEngine extends JPanel implements Engine {
 
     private ArrayList<Displayable> renderList = new ArrayList();
+    private ArrayList<Troll> trollList = new ArrayList<>();
 
     private Image imageGrass;
 
@@ -47,6 +53,14 @@ public class RenderEngine extends JPanel implements Engine {
             ((Displayable)this.renderList.get(i)).draw(g);
         }
 
+        Hero.getInstance().drawInventory(g, 10, 20, "HERO");
+
+        int y = 100;
+        for(Troll troll : trollList){
+            troll.drawInventory(g, 10, y, "TROLL");
+            y += 80;
+        }
+
     }
 
     public void addToRenderList(Displayable displayable) {
@@ -63,6 +77,15 @@ public class RenderEngine extends JPanel implements Engine {
         addToRenderList(grass);
         removeFromRenderList(Hero.getInstance());
         addToRenderList(Hero.getInstance());
+
+        for(Troll troll : trollList){
+            removeFromRenderList(troll);
+            addToRenderList(troll);
+        }
+    }
+
+    public void addTroll(Troll troll){
+        this.trollList.add(troll);
     }
 }
 

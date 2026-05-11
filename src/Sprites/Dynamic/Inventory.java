@@ -1,3 +1,5 @@
+package Sprites.Dynamic;
+
 public class Inventory {
     int axeCount;
     int gemCount;

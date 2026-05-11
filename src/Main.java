@@ -3,6 +3,13 @@
 // (powered by Fernflower decompiler)
 //
 
+import Engines.GameEngine;
+import Engines.PhysicEngine;
+import Engines.RenderEngine;
+import Sprites.Displayable;
+import Sprites.Dynamic.Hero;
+import Sprites.Dynamic.Troll;
+
 import java.awt.*;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -23,13 +30,18 @@ public class Main {
         this.playground = new Playground("src/test.txt");
         Hero.getInstance(ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/heroTileSheetLowRes.png")), (double)200.0F, (double)300.0F, (double)48.0F, (double)50.0F);
 
+        //Configure Enemies
+        Troll troll = new Troll(ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/trollTileSheetLowRes.png")), (double)200.0F, (double)300.0F, (double)48.0F, (double)50.0F);
+        RenderEngine.getInstance().addTroll(troll);
+
+
         try {
             this.imageGrass = ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/grass.png"));
         } catch (Exception e) {
             throw new RuntimeException("Could not load grass image", e);
         }
 
-        //Configure Engine Timers
+        //Configure Engines.Engine Timers
         Timer renderTimer = new Timer(50, (time) -> RenderEngine.getInstance().update());
         Timer gameTimer = new Timer(50, (time) -> GameEngine.getInstance().update());
         Timer physicTimer = new Timer(50, (time) -> PhysicEngine.getInstance().update());
@@ -45,6 +57,8 @@ public class Main {
         PhysicEngine.getInstance().setEnvironment(this.playground.getSolidSpriteList());
         RenderEngine.getInstance().addToRenderList(Hero.getInstance());
         PhysicEngine.getInstance().addToMovingSpriteList(Hero.getInstance());
+        RenderEngine.getInstance().addToRenderList(troll);
+        PhysicEngine.getInstance().addToMovingSpriteList(troll);
 
         this.displayZoneFrame.add(RenderEngine.getInstance());
         this.displayZoneFrame.setVisible(true);

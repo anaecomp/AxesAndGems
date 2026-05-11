@@ -1,6 +1,8 @@
+package Sprites.Dynamic;
+
 import java.awt.*;
 
-public final class Hero extends DynamicSprite{
+public final class Hero extends DynamicSprite {
     //Singleton Class Code Obtained from Reading #5 Design Patterns, Slide 9
 
     public static volatile Hero instance = null;

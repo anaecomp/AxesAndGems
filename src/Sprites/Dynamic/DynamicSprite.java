@@ -1,9 +1,17 @@
-import org.w3c.dom.css.Rect;
+package Sprites.Dynamic;
+import Engines.RenderEngine;
+import Engines.PhysicEngine;
+import Sprites.Sprite;
+import Sprites.Solid.PickaxeSprite;
+import Sprites.Solid.RockSprite;
+import Sprites.Solid.SolidSprite;
+
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public class DynamicSprite extends SolidSprite{
+public class DynamicSprite extends SolidSprite {
 
     boolean isWalking;
     double speed;
@@ -50,28 +58,28 @@ public class DynamicSprite extends SolidSprite{
 
     private void move(){
         switch(direction){
-            case NORTH -> {super.setY(super.getY()-speed);
+            case Direction.NORTH -> {super.setY(super.getY()-speed);
                 break;}
-            case SOUTH -> {super.setY(super.getY()+speed);
+            case Direction.SOUTH -> {super.setY(super.getY()+speed);
                 break;}
-            case WEST -> {super.setX(super.getX()-speed);
+            case Direction.WEST -> {super.setX(super.getX()-speed);
                 break;}
-            case EAST -> {super.setX(super.getX()+speed);
+            case Direction.EAST -> {super.setX(super.getX()+speed);
                 break;}
         }
     }
 
-    private boolean isMovingPossible(ArrayList<Sprite> environment){
+    boolean isMovingPossible(ArrayList<Sprite> environment){
 
         //Create X,Y Position to Test Possible Movement
         double x_test = super.getX();
         double y_test = super.getY();
 
         switch(direction){
-            case NORTH -> {y_test = y_test - speed;}
-            case SOUTH -> {y_test = y_test + speed;}
-            case WEST -> {x_test = x_test - speed;}
-            case EAST -> {x_test = x_test + speed;}
+            case Direction.NORTH -> {y_test = y_test - speed;}
+            case Direction.SOUTH -> {y_test = y_test + speed;}
+            case Direction.WEST -> {x_test = x_test - speed;}
+            case Direction.EAST -> {x_test = x_test + speed;}
         }
 
         //Determine the hit box for hypothetical new position
@@ -80,7 +88,7 @@ public class DynamicSprite extends SolidSprite{
         //Iterate through entire environment
         for(Sprite my_sprite : environment){
 
-            //Skip over the DynamicSprite itself
+            //Skip over the Sprites.Dynamic.DynamicSprite itself
             if(my_sprite == this){continue;}
 
             //Only SolidSprites are needed to be checked
@@ -105,7 +113,7 @@ public class DynamicSprite extends SolidSprite{
         if(isMovingPossible(environment)){move();}
     }
 
-    private Rectangle2D.Double getInteractionBox() {
+    Rectangle2D.Double getInteractionBox() {
         double reach = (double)100.0F;
         double x = super.getX();
         double y = super.getY();
@@ -113,15 +121,15 @@ public class DynamicSprite extends SolidSprite{
         double h = super.getHeight();
         Rectangle2D.Double boxInFront = new Rectangle2D.Double();
         switch (this.direction) {
-            case NORTH -> boxInFront = new Rectangle2D.Double(x, y - reach, w, reach);
-            case SOUTH -> boxInFront = new Rectangle2D.Double(x, y + h, w, reach);
-            case WEST -> boxInFront = new Rectangle2D.Double(x - reach, y, reach, h);
-            case EAST -> boxInFront = new Rectangle2D.Double(x + w, y, reach, h);
+            case Direction.NORTH -> boxInFront = new Rectangle2D.Double(x, y - reach, w, reach);
+            case Direction.SOUTH -> boxInFront = new Rectangle2D.Double(x, y + h, w, reach);
+            case Direction.WEST -> boxInFront = new Rectangle2D.Double(x - reach, y, reach, h);
+            case Direction.EAST -> boxInFront = new Rectangle2D.Double(x + w, y, reach, h);
         }
         return boxInFront;
     }
 
-    protected boolean pickupIfPossible(){
+    public boolean pickupIfPossible(){
         Rectangle2D.Double reachableBox = this.getInteractionBox();
 
         for(Sprite my_sprite : PhysicEngine.getInstance().getEnvironment()) {
@@ -130,7 +138,7 @@ public class DynamicSprite extends SolidSprite{
                 if (reachableBox.intersects(hitbox) && my_sprite instanceof PickaxeSprite) {
                     //Eliminate Pickaxe from the Environment List
                     PhysicEngine.getInstance().getEnvironment().remove(my_sprite);
-                    //Add the Pickaxe to the Sprite's Inventory
+                    //Add the Pickaxe to the Sprites.Sprite's Sprites.Dynamic.Inventory
                     this.inventory.addAxe();
                     //Replace the Pickaxe with Grass in the GUI Window
                     RenderEngine.getInstance().replaceWithGrass(my_sprite);
@@ -142,7 +150,7 @@ public class DynamicSprite extends SolidSprite{
         return false;
     }
 
-    protected boolean mineIfPossible(){
+    public boolean mineIfPossible(){
         if (!this.inventory.hasAxe()) {
             return false;
         }
@@ -155,9 +163,9 @@ public class DynamicSprite extends SolidSprite{
                     if (reachableBox.intersects(hitbox) && my_sprite instanceof RockSprite) {
                         //Eliminate Rock from the Environment List
                         PhysicEngine.getInstance().getEnvironment().remove(my_sprite);
-                        //Add the Gem to the Sprite's Inventory
+                        //Add the Gem to the Sprites.Sprite's Sprites.Dynamic.Inventory
                         this.inventory.addGem();
-                        //Remove a Pickaxe from the Sprite's Inventory
+                        //Remove a Pickaxe from the Sprites.Sprite's Sprites.Dynamic.Inventory
                         this.inventory.removeAxe();
                         //Replace the Pickaxe with Grass in the GUI Window
                         RenderEngine.getInstance().replaceWithGrass(my_sprite);
@@ -171,6 +179,44 @@ public class DynamicSprite extends SolidSprite{
 
     }
 
+    public void drawGem(Graphics g, int x, int y){
 
+        g.setColor(Color.CYAN);
+
+        int[] xPoints = {x+10, x+20, x+10, x};
+        int[] yPoints = {y, y+10, y+20, y+10};
+
+        g.fillPolygon(xPoints, yPoints, 4);
+    }
+
+    public void drawPickaxe(Graphics g, int x, int y){
+
+        // Handle
+        g.setColor(new Color(139,69,19));
+        g.fillRect(x+8, y+5, 4, 16);
+
+        // Metal Head
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(x, y, 20, 4);
+        g.fillRect(x+2, y+3, 4, 4);
+        g.fillRect(x+14, y+3, 4, 4);
+    }
+
+    public void drawInventory(Graphics g, int startX, int startY, String name){
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 25));
+        g.drawString(name, startX, startY);
+
+        // Draw Gems
+        for(int i = 0; i < inventory.getGemCount(); i++){
+            drawGem(g, startX + i*25, startY + 10);
+        }
+
+        // Draw Pickaxes
+        for(int i = 0; i < inventory.getAxeCount(); i++){
+            drawPickaxe(g, startX + i*25, startY + 40);
+        }
+    }
 
 }

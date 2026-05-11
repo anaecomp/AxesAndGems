@@ -1,6 +1,7 @@
+package Sprites;
 import java.awt.*;
 
-public class Sprite implements Displayable{
+public class Sprite implements Displayable {
 
     private Image image;
     private double x,y; //position

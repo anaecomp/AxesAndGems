@@ -1,9 +1,10 @@
-import java.awt.Image;
+package Engines;
+
+import Sprites.Dynamic.Hero;
+import Sprites.Dynamic.Direction;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
 
 public class GameEngine implements Engine, KeyListener {
     public static volatile GameEngine instance = null;
