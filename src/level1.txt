@@ -1,0 +1,10 @@
+TTTTTTTTTTTTTT
+T  R   P     T
+T         R  T
+T    P       T
+T          P T
+T P  R     R T
+T            T
+T  R    R    T
+T          BWB
+TTTTTTTTTTTTTT

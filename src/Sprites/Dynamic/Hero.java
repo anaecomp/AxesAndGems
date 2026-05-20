@@ -27,4 +27,7 @@ public final class Hero extends DynamicSprite {
     }
 
 
+    public static void resetInstance() {
+        Hero.instance = null;
+    }
 }

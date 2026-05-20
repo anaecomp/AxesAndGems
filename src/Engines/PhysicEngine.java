@@ -64,4 +64,8 @@ public class PhysicEngine implements Engine {
         }
 
     }
+
+    public void clearMovingSpriteList() {
+        movingSpriteList.clear();
+    }
 }

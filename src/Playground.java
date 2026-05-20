@@ -4,9 +4,7 @@
 //
 
 import Sprites.Displayable;
-import Sprites.Solid.PickaxeSprite;
-import Sprites.Solid.RockSprite;
-import Sprites.Solid.SolidSprite;
+import Sprites.Solid.*;
 import Sprites.Sprite;
 
 import java.awt.Image;
@@ -28,6 +26,8 @@ public class Playground {
             Image imageRock = ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/rock.png"));
             Image imageTrap = ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/trap.png"));
             Image imagePickaxe = ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/pickaxe.png"));
+            Image imageWizard = ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/WizardOnBridge.png"));
+            Image imageBridge = ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/Bridge.png"));
             int imageTreeWidth = imageTree.getWidth((ImageObserver)null);
             int imageTreeHeight = imageTree.getHeight((ImageObserver)null);
             int imageGrassWidth = imageGrass.getWidth((ImageObserver)null);
@@ -36,6 +36,10 @@ public class Playground {
             int imageRockHeight = imageRock.getHeight((ImageObserver)null);
             int imagePickaxeWidth = imagePickaxe.getWidth((ImageObserver)null);
             int imagePickaxeHeight = imagePickaxe.getHeight((ImageObserver)null);
+            int imageWizardWidth = imageWizard.getWidth((ImageObserver)null);
+            int imageWizardHeight = imageWizard.getHeight((ImageObserver)null);
+            int imageBridgeWidth = imageBridge.getWidth((ImageObserver)null);
+            int imageBridgeHeight = imageBridge.getHeight((ImageObserver)null);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(pathName));
             String line = bufferedReader.readLine();
             int lineNumber = 0;
@@ -47,6 +51,8 @@ public class Playground {
                         case 80 -> this.environment.add(new PickaxeSprite(imagePickaxe, (double)(columnNumber * imagePickaxeWidth), (double)(lineNumber * imagePickaxeHeight), (double)imagePickaxeWidth, (double)imagePickaxeHeight));
                         case 82 -> this.environment.add(new RockSprite(imageRock, (double)(columnNumber * imageRockWidth), (double)(lineNumber * imageRockHeight), (double)imageRockWidth, (double)imageRockHeight));
                         case 84 -> this.environment.add(new SolidSprite(imageTree, (double)(columnNumber * imageTreeWidth), (double)(lineNumber * imageTreeHeight), (double)imageTreeWidth, (double)imageTreeHeight));
+                        case 87 -> this.environment.add(new WizardSprite(imageWizard,(double)(columnNumber * imageWizardWidth),(double)(lineNumber * imageWizardHeight),(double)imageWizardWidth,(double)imageWizardHeight));
+                        case 66 -> this.environment.add(new BridgeSprite(imageBridge, (double)(columnNumber * imageBridgeWidth),(double)(lineNumber * imageBridgeHeight),(double)imageBridgeWidth, (double)imageBridgeHeight));
                     }
 
                     ++columnNumber;

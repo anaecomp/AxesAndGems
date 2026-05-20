@@ -1,6 +1,8 @@
 package Sprites.Dynamic;
+import Engines.GameEngine;
 import Engines.RenderEngine;
 import Engines.PhysicEngine;
+import Sprites.Solid.WizardSprite;
 import Sprites.Sprite;
 import Sprites.Solid.PickaxeSprite;
 import Sprites.Solid.RockSprite;
@@ -179,6 +181,22 @@ public class DynamicSprite extends SolidSprite {
 
     }
 
+    public boolean crossIfPossible(){
+        Rectangle2D.Double reachableBox = this.getInteractionBox();
+
+        for(Sprite my_sprite : PhysicEngine.getInstance().getEnvironment()) {
+            if (my_sprite != this) {
+                Rectangle2D.Double hitbox = new Rectangle2D.Double(my_sprite.getX(), my_sprite.getY(), my_sprite.getWidth(), my_sprite.getHeight());
+                if (reachableBox.intersects(hitbox) && my_sprite instanceof WizardSprite) {
+                    if(this.inventory.getGemCount() >= GameEngine.getInstance().getRequiredGems()){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public void drawGem(Graphics g, int x, int y){
 
         g.setColor(Color.CYAN);
@@ -204,19 +222,22 @@ public class DynamicSprite extends SolidSprite {
 
     public void drawInventory(Graphics g, int startX, int startY, String name){
 
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 25));
-        g.drawString(name, startX, startY);
+        g.setColor(new Color(0, 0, 0, 150));
+        g.fillRoundRect(startX, startY, 180, 75, 15, 15);
 
-        // Draw Gems
-        for(int i = 0; i < inventory.getGemCount(); i++){
-            drawGem(g, startX + i*25, startY + 10);
-        }
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 16));
+        g.drawString(name, startX + 10, startY + 20);
 
-        // Draw Pickaxes
-        for(int i = 0; i < inventory.getAxeCount(); i++){
-            drawPickaxe(g, startX + i*25, startY + 40);
-        }
+        // Gem icon + count
+        drawGem(g, startX + 15, startY + 30);
+        g.setColor(Color.WHITE);
+        g.drawString("x " + inventory.getGemCount(), startX + 45, startY + 48);
+
+        // Pickaxe icon + count
+        drawPickaxe(g, startX + 95, startY + 30);
+        g.setColor(Color.WHITE);
+        g.drawString("x " + inventory.getAxeCount(), startX + 125, startY + 48);
     }
 
 }
