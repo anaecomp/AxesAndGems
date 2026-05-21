@@ -1,11 +1,10 @@
-TTTTTTTTTTTTTTT
-TTTTTTTTTTTTTTT
-T   R   T  P  T
-T       T     T
-TTTT    TTT   T
-T             T
-T   TTTTT   R T
-T   T         T
-T   T   R     T
-T      BWB    T
-TTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTT
+T P      R     P T
+T     R      R   T
+T  TTTTT   P     T
+T   R    P    R  T
+T       R      P T
+T P   R      P   T
+T     R  R     P T
+T   P     R  BWB T
+TTTTTTTTTTTTTTTTTT

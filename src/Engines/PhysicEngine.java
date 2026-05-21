@@ -1,5 +1,7 @@
 package Engines;
 import Sprites.Dynamic.Troll;
+import Sprites.Solid.PickaxeSprite;
+import Sprites.Solid.RockSprite;
 import Sprites.Sprite;
 import Sprites.Dynamic.DynamicSprite;
 
@@ -67,5 +69,31 @@ public class PhysicEngine implements Engine {
 
     public void clearMovingSpriteList() {
         movingSpriteList.clear();
+    }
+
+    public int countRemainingRocks(){
+
+        int rockCount = 0;
+
+        for(Sprite mySprite : environment){
+            if(mySprite instanceof RockSprite){
+                rockCount++;
+            }
+        }
+
+        return rockCount;
+    }
+
+    public int countRemainingPickaxes(){
+
+        int pickaxeCount = 0;
+
+        for(Sprite mySprite : environment){
+            if(mySprite instanceof PickaxeSprite){
+                pickaxeCount++;
+            }
+        }
+
+        return pickaxeCount;
     }
 }

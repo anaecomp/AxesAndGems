@@ -240,4 +240,8 @@ public class DynamicSprite extends SolidSprite {
         g.drawString("x " + inventory.getAxeCount(), startX + 125, startY + 48);
     }
 
+    public Inventory getInventory(){
+        return this.inventory;
+    }
+
 }

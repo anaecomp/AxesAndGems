@@ -3,10 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-import Engines.GameEngine;
-import Engines.GameState;
-import Engines.PhysicEngine;
-import Engines.RenderEngine;
+import Engines.*;
 import Sprites.Displayable;
 import Sprites.Dynamic.Hero;
 import Sprites.Dynamic.Troll;
@@ -28,6 +25,7 @@ public class Main {
         //Configure GUI Window and Game Environment
         this.displayZoneFrame.setSize(400, 600);
         this.displayZoneFrame.setDefaultCloseOperation(3);
+        this.displayZoneFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         try {
             this.imageGrass = ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/grass.png"));
@@ -44,7 +42,7 @@ public class Main {
         physicTimer.start();
 
         Timer menuTimer = new Timer(50, (time) -> {
-            if(GameEngine.getInstance().isLevelSelected() && this.playground == null) {
+            if(GameEngine.getInstance().isLevelSelected()) {
                 try {
                     loadLevel();
                     GameEngine.getInstance().setLevelSelected(false);
@@ -71,21 +69,46 @@ public class Main {
         //Instantiate Hero Character as "Movable"
         Hero.getInstance(ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/heroTileSheetLowRes.png")), (double)200.0F, (double)300.0F, (double)48.0F, (double)50.0F);
 
-        //Configure Enemies
-        Troll troll = new Troll(ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/trollTileSheetLowRes.png")), (double)200.0F, (double)300.0F, (double)48.0F, (double)50.0F);
-        RenderEngine.getInstance().addTroll(troll);
 
         for(Displayable d : this.playground.getSpriteList()) {
             RenderEngine.getInstance().addToRenderList(d);
         }
 
-        PhysicEngine.getInstance().setEnvironment(this.playground.getSolidSpriteList());
+        //Configure Enemies
+        addTrollsForLevel();
 
+        PhysicEngine.getInstance().setEnvironment(this.playground.getSolidSpriteList());
         RenderEngine.getInstance().addToRenderList(Hero.getInstance());
         PhysicEngine.getInstance().addToMovingSpriteList(Hero.getInstance());
+        PhysicEngine.getInstance().addToEnvironmentList(Hero.getInstance());
 
+    }
+
+    public void addOneTroll(double x, double y) throws Exception {
+        Troll troll = new Troll(ImageIO.read(new File("C://Users//anaec//IdeaProjects//DungeonCrawler//Resources//img/trollTileSheetLowRes.png")), x, y, 48, 50);
+
+        RenderEngine.getInstance().addTroll(troll);
         RenderEngine.getInstance().addToRenderList(troll);
         PhysicEngine.getInstance().addToMovingSpriteList(troll);
+        PhysicEngine.getInstance().addToEnvironmentList(troll);
+        RenderEngine.getInstance().update();
+
+    }
+
+    public void addTrollsForLevel() throws Exception {
+
+        if(GameEngine.getInstance().getDifficulty() == Difficulty.EASY) {
+            addOneTroll(200, 400);
+        }
+        else if(GameEngine.getInstance().getDifficulty() == Difficulty.MEDIUM) {
+            addOneTroll(180, 320);
+            addOneTroll(320, 390);
+        }
+        else if(GameEngine.getInstance().getDifficulty() == Difficulty.HARD) {
+            addOneTroll(190, 300);
+            addOneTroll(220, 300);
+            addOneTroll(390, 200);
+        }
     }
 
     public static void main(String[] args) throws Exception {

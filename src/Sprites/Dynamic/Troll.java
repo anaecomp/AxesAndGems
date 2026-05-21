@@ -16,7 +16,7 @@ public class Troll extends DynamicSprite{
 
     public Troll(Image image, double x, double y, double width, double height){
         super(image,x,y,width,height);
-        speed = 3;
+        speed = 2;
         trollCount++;
         setRandomDirection();
     }
@@ -70,11 +70,17 @@ public class Troll extends DynamicSprite{
         if(reachableBox.intersects(heroHitbox)) {
 
             int stolenGems = Hero.getInstance().inventory.getGemCount();
-            for(int i = 0; i < stolenGems; i++){
-                Hero.getInstance().inventory.removeGem();
-                this.inventory.addGem();
+
+            if(stolenGems > 0){
+                for(int i = 0; i < stolenGems; i++){
+                    Hero.getInstance().inventory.removeGem();
+                    this.inventory.addGem();
+                }
+
+                RenderEngine.getInstance().showTrollStealScreen();
+                return true;
             }
-            return true;
+
         }
         return false;
     }

@@ -15,7 +15,7 @@ public class GameEngine implements Engine, KeyListener {
     private boolean levelSelected = false;
     private Difficulty difficulty;
 
-    private int requiredGems = 0;
+    private int requiredGems = 1;
     private boolean pickupRequest = false;
     private boolean mineRequest = false;
 
@@ -46,14 +46,17 @@ public class GameEngine implements Engine, KeyListener {
                 case KeyEvent.VK_1 -> {
                         difficulty = Difficulty.EASY;
                         levelSelected = true;
+                        requiredGems = 3;
                 }
                 case KeyEvent.VK_2 -> {
                     difficulty = Difficulty.MEDIUM;
                     levelSelected = true;
+                    requiredGems = 4;
                 }
                 case KeyEvent.VK_3 -> {
                     difficulty = Difficulty.HARD;
                     levelSelected = true;
+                    requiredGems = 5;
                 }
             }
         }
@@ -111,8 +114,22 @@ public class GameEngine implements Engine, KeyListener {
                 if(mySprite.crossIfPossible() && mySprite instanceof Troll) {
                     gameState = GameState.GAMEOVER;
                 }
+
+                if(mySprite.crossIfPossible() && mySprite instanceof Hero) {
+                    gameState = GameState.WIN;
+                }
             }
 
+            int currentGems = Hero.getInstance().getInventory().getGemCount();
+            int currentPickaxes = Hero.getInstance().getInventory().getAxeCount();
+
+            int remainingRocks = PhysicEngine.getInstance().countRemainingRocks();
+            int remainingPickaxes = PhysicEngine.getInstance().countRemainingPickaxes();
+
+
+            if((currentGems + remainingRocks < requiredGems) || (requiredGems - currentGems > remainingPickaxes + currentPickaxes)){
+                gameState = GameState.GAMEOVER;
+            }
 
 
         }
@@ -131,13 +148,13 @@ public class GameEngine implements Engine, KeyListener {
     public String getLevelFile() {
 
         if(difficulty == Difficulty.EASY) {
-            return "src/level1.txt";
+            return "level1.txt";
         }
         else if(difficulty == Difficulty.MEDIUM) {
-            return "src/level2.txt";
+            return "level2.txt";
         }
         else {
-            return "src/level3.txt";
+            return "level3.txt";
         }
     }
 
@@ -168,5 +185,13 @@ public class GameEngine implements Engine, KeyListener {
 
     public void setLevelSelected(boolean b) {
         levelSelected = b;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public static void resetInstance(){
+        GameEngine.instance = null;
     }
 }
