@@ -12,25 +12,16 @@ The user must manipulate the hero sprite to pick up pickaxes that allow them to 
 ## Specification
 
 ### Level 1
-Wizard's Crossing requires 5 gems.
-
-- Pickaxe Qty: 8
-- Gem Qty: 10
-- Troll Qty: 1
+Wizard's Crossing requires 3 gems.
+1 Troll.
 
 ### Level 2
-Wizard's Crossing requires 10 gems.
-
-- Pickaxe Qty: 12
-- Gem Qty: 15
-- Troll Qty: 2
+Wizard's Crossing requires 4 gems.
+2 Trolls.
 
 ### Level 3
-Wizard's Crossing requires 15 gems. 
-
-- Pickaxe Qty: 16
-- Gem Qty: 20
-- Troll Qty: 3
+Wizard's Crossing requires 5 gems. 
+3 Trolls.
 
 
 
